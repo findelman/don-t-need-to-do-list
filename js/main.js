@@ -2,6 +2,8 @@ let input = document.querySelector(".input");
 let btn = document.querySelector(".btn");
 let out = document.querySelector(".out");
 let arr = [];
+let arrCompleted = []
+let itemCompletedCount = 0
 
 btn.addEventListener("click", () => {
   if (input.value !== "") {
@@ -26,6 +28,12 @@ const arrOut = (arr) => {
   for (let key of arr) {
     out.innerHTML += `<div class="item" >${key}<div class="item-btns flex"><div class="completed flex-c"></div> <div class="clear flex-c"></div></div></div>`;
   }
+
+  // добавляем активный класс выполненным айтемам
+  let items = document.querySelectorAll(".item")
+  for(let i = 0; i < itemCompletedCount; i++){ 
+    items[i].classList.add('item--completed')
+  }
 };
 
 // Скролл в начало
@@ -33,7 +41,6 @@ const scrollTop = () => {
   let toItem = document.querySelectorAll('.item')
   if(toItem.length >= 1) {
     toItem[toItem.length - 1].scrollIntoView()
-    console.log(toItem[toItem.length - 1])
   }
 }
 
@@ -44,20 +51,19 @@ const itemClick = () => {
     let itemClose = elem.querySelector('.clear')
     let itemCompleted = elem.querySelector('.completed')
     itemClose.addEventListener("click", () => {
-      
+      if(elem.classList.contains('item--completed')) {
+        itemCompletedCount--
+      }
       arr.splice(arr.indexOf(elem.textContent.trim()), 1);
       elem.remove();
-      console.log(arr);
     });
     itemCompleted.addEventListener('click', () => {
-    //   console.log('comp')
-    //   arr.splice(arr.indexOf(elem.textContent.trim()),1)
-    //   console.log(arr)
-    //   arr.unshift(elem.textContent.trim())
-    //   console.log(arr)
-    //   arrOut(arr)
-    //   elem.classList.add('item--completed')
-    alert('ща сделаю')
+      arr.splice(arr.indexOf(elem.textContent.trim()),1)
+      arr.unshift(elem.textContent.trim())
+      itemCompletedCount++
+      arrOut(arr)
+      itemClick()
+    // alert('ща сделаю')
     })
   });
 };
