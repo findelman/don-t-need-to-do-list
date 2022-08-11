@@ -44,7 +44,8 @@ const itemClick = () => {
     let itemClose = elem.querySelector('.clear')
     let itemCompleted = elem.querySelector('.completed')
     itemClose.addEventListener("click", () => {
-      arr.splice(arr.indexOf(elem.textContent), 1);
+      
+      arr.splice(arr.indexOf(elem.textContent.trim()), 1);
       elem.remove();
       console.log(arr);
     });
