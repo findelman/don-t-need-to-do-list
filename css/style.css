@@ -131,26 +131,17 @@ font-size: 20px;
     min-width: 20px;
     height: 20px;
     cursor: pointer;
-    background: #ffffff7a;
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 100%;
-}
-.clear,
-.completed,
-.update,
-.accept {
     position: relative;
-    right: 0;
-    min-width: 20px;
-    height: 20px;
-    cursor: pointer;
-    background:rgba(0, 0, 0, 0.1);
-    border-radius: 100%;
 }
 
 .clear:before,
 .clear:after,
 .completed:before,
-.completed:after
+.completed:after,
+.accept:before,
+.accept:after
 {
     content: '';
     width: 60%;
@@ -163,13 +154,17 @@ font-size: 20px;
     transform: rotate(-45deg);
 }
 .completed:before,
-.completed:after {
+.completed:after,
+.accept:after,
+.accept:before {
     background: green;
 }
-.completed:after {
+.completed:after,
+.accept:after {
     transform: rotate(-45deg) translate(2px,2px);
 }
-.completed:before {
+.completed:before,
+.accept:before {
     transform: rotate(46deg) translate(-1px,3px);
     width: 40%;
 }
