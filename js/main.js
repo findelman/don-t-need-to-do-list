@@ -66,9 +66,10 @@ const itemClick = () => {
         itemCompletedCount--;
       }
       arr.splice(arr.indexOf(elem.textContent.trim()), 1);
-      arrCompleted.splice(arr.indexOf(elem.textContent.trim()), 1);
+      arrCompleted.splice(arrCompleted.indexOf(elem.textContent.trim()), 1);
       elem.remove();
       arrOut(arrCompleted, outCompleted);
+      console.log(arr,arrCompleted)
       countTask.innerHTML = arr.length + " задач";
     });
 
@@ -138,7 +139,6 @@ tabs.forEach((tab) => {
       if (tab.id === wrapper.dataset.tab) {
         wrapper.classList.add("tab--active");
         tab.classList.add("btn-filter--active");
-
         countTask.innerHTML = arr.length + " задач";
       }
     });
