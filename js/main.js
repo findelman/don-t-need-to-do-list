@@ -133,13 +133,11 @@ tabs.forEach((tab) => {
     tabs.forEach((e) => {
       e.classList.remove("btn-filter--active");
     });
-    // tab.classList.remove('btn-filter--active')
     tabsWrapper.forEach((wrapper) => {
       wrapper.classList.remove("tab--active");
       if (tab.id === wrapper.dataset.tab) {
         wrapper.classList.add("tab--active");
         tab.classList.add("btn-filter--active");
-        countTask.innerHTML = arr.length + " задач";
       }
     });
   });
