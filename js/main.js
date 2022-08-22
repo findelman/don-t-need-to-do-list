@@ -76,7 +76,7 @@ const itemClick = () => {
     itemCompleted.addEventListener("click", () => {
       if (elem.classList.contains("item--completed")) {
         elem.classList.remove("item--completed");
-        itemCompletedClick(elem,'completed');
+        itemCompletedClick(elem, "completed");
         return;
       }
       itemCompletedClick(elem);
@@ -112,7 +112,7 @@ input.addEventListener("keydown", (event) => {
 });
 
 // Логика клика по галочке
-const itemCompletedClick = (elem, completedCheck = 'false') => {
+const itemCompletedClick = (elem, completedCheck = "false") => {
   if (completedCheck === "completed") {
     arrCompleted.splice(arrCompleted.indexOf(elem.textContent.trim()), 1);
     arr.splice(arr.indexOf(elem.textContent.trim()), 1);
@@ -144,16 +144,37 @@ const tabsToggleAnimation = (tab) => {
 // Логика табов
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
+    let items = document.querySelectorAll(".item");
+
     tabsToggleAnimation(tab);
     tabs.forEach((e) => {
       e.classList.remove("btn-filter--active");
     });
+    // Нужен рефакторинг
     tabsWrapper.forEach((wrapper) => {
       wrapper.classList.remove("tab--active");
       if (tab.id === wrapper.dataset.tab) {
         wrapper.classList.add("tab--active");
         tab.classList.add("btn-filter--active");
+        countTask.innerHTML = wrapper.children.length + " задач";
       }
+      // if (tab.innerHTML === "Активные") {
+      //   let items = document.getElementsByClassName(".item");
+      //   // items.forEach((item) => {
+      //   //   if (item.classList.contains("item--completed")) {
+      //   //     item.style.display = "none";
+      //   //   }
+      //   // });
+      //   console.log(items);
+      //   wrapper.children;
+      //   // countTask.innerHTML = wrapper.children.length + " задач";
+      //   return;
+      // }
+      items.forEach((item) => {
+        if (item.classList.contains("item--completed")) {
+          item.style.display = "flex";
+        }
+      });
     });
   });
 });
