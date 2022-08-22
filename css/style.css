@@ -181,10 +181,18 @@ font-size: 20px;
     opacity: 0.5;
     text-decoration: line-through;
 }
-.item--completed .completed,
+/* .item--completed .completed, */
 .item--completed .update,
 .completed-tab .item-btns {
     display: none;
+}
+.item--completed .completed::before,
+.item--completed .completed:after {
+background: blue;
+width: 60%;
+transform: rotate(90deg);
+}.item--completed .completed:after {
+    transform: rotate(180deg);
 }
 .tab-wrapper {
     display: none;

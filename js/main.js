@@ -35,7 +35,7 @@ const inputReset = () => {
 const arrOut = (arr, outInner) => {
   outInner.innerHTML = ``;
   for (let key of arr) {
-    outInner.innerHTML += `<div class="item" >${key}<div class="item-btns flex"><div class="update flex-c item-btn--default"></div><div class="completed flex-c item-btn--default"></div> <div class="clear flex-c item-btn--default"></div></div></div>`;
+    outInner.innerHTML += `<div class="item" ><div class="item-text">${key}</div><div class="item-btns flex"><div class="update flex-c item-btn--default"></div><div class="completed flex-c item-btn--default"></div> <div class="clear flex-c item-btn--default"></div></div></div>`;
   }
 
   // добавляем активный класс выполненным айтемам
@@ -69,19 +69,17 @@ const itemClick = () => {
       arrCompleted.splice(arrCompleted.indexOf(elem.textContent.trim()), 1);
       elem.remove();
       arrOut(arrCompleted, outCompleted);
-      console.log(arr,arrCompleted)
+      console.log(arr, arrCompleted);
       countTask.innerHTML = arr.length + " задач";
     });
 
     itemCompleted.addEventListener("click", () => {
-      arrCompleted.push(elem.textContent.trim());
-      console.log(arrCompleted, arr);
-      arr.splice(arr.indexOf(elem.textContent.trim()), 1);
-      arr.unshift(elem.textContent.trim());
-      itemCompletedCount++;
-      arrOut(arr, out);
-      arrOut(arrCompleted, outCompleted);
-      itemClick();
+      if (elem.classList.contains("item--completed")) {
+        elem.classList.remove("item--completed");
+        itemCompletedClick(elem,'completed');
+        return;
+      }
+      itemCompletedClick(elem);
     });
 
     // Желательно переделать
@@ -92,13 +90,12 @@ const itemClick = () => {
       let itemUpdate = document.querySelector(".item--update");
       let itemAccept = itemUpdate.querySelector(".accept");
       let itemInput = itemUpdate.querySelector(".item__input");
+      console.log(elem);
       itemInput.focus();
       itemAccept.addEventListener("click", () => {
         console.log(elem);
         itemUpdate.outerHTML = `<div class="item">${itemInput.value}<div class="item-btns flex"><div class="update flex-c"></div><div class="completed flex-c"></div> <div class="clear flex-c"></div></div></div>`;
-        console.log(arr);
         arr.splice(arr.indexOf(elemText.trim()), 1, itemInput.value);
-        console.log(arr);
         arrOut(arr, out);
         itemClick();
       });
@@ -113,6 +110,24 @@ input.addEventListener("keydown", (event) => {
     btn.click();
   }
 });
+
+// Логика клика по галочке
+const itemCompletedClick = (elem, completedCheck = 'false') => {
+  if (completedCheck === "completed") {
+    arrCompleted.splice(arrCompleted.indexOf(elem.textContent.trim()), 1);
+    arr.splice(arr.indexOf(elem.textContent.trim()), 1);
+    arr.push(elem.textContent.trim());
+    itemCompletedCount--;
+  } else {
+    arrCompleted.push(elem.textContent.trim());
+    arr.splice(arr.indexOf(elem.textContent.trim()), 1);
+    arr.unshift(elem.textContent.trim());
+    itemCompletedCount++;
+  }
+  arrOut(arr, out);
+  arrOut(arrCompleted, outCompleted);
+  itemClick();
+};
 
 // Анимация линии под табами
 const tabsToggleAnimation = (tab) => {
