@@ -17,12 +17,14 @@ dateInner.innerHTML = date;
 btn.addEventListener("click", () => {
   if (input.value.trim() !== "") {
     arr.push(input.value);
+    localStorage.setItem(input.value.trim(), input.value.trim());
   }
   inputReset();
   arrOut(arr, out);
   itemClick();
   scrollTop();
   console.log(arr);
+  console.log(localStorage);
 });
 
 // Обнволение и рефокус инпута
@@ -67,6 +69,7 @@ const itemClick = () => {
       }
       arr.splice(arr.indexOf(elem.textContent.trim()), 1);
       arrCompleted.splice(arrCompleted.indexOf(elem.textContent.trim()), 1);
+      localStorage.removeItem(elem.textContent.trim());
       elem.remove();
       arrOut(arrCompleted, outCompleted);
       console.log(arr, arrCompleted);
@@ -92,17 +95,19 @@ const itemClick = () => {
       let itemInput = itemUpdate.querySelector(".item__input");
       console.log(elem);
       itemInput.focus();
+      localStorage.removeItem(elem.textContent.trim());
       itemAccept.addEventListener("click", () => {
         console.log(elem);
         itemUpdate.outerHTML = `<div class="item">${itemInput.value}<div class="item-btns flex"><div class="update flex-c"></div><div class="completed flex-c"></div> <div class="clear flex-c"></div></div></div>`;
         arr.splice(arr.indexOf(elemText.trim()), 1, itemInput.value);
+        localStorage.setItem(itemInput.value.trim(), itemInput.value.trim());
         arrOut(arr, out);
         itemClick();
       });
       console.log(itemAccept);
     });
   });
-  countTask.innerHTML = arr.length + " задач";
+  countTask.innerHTML = `${arr.length} задач`;
 };
 
 input.addEventListener("keydown", (event) => {
@@ -178,3 +183,14 @@ tabs.forEach((tab) => {
     });
   });
 });
+
+if (localStorage.length >= 1) {
+  for (let key in localStorage) {
+    if (!localStorage.hasOwnProperty(key)) {
+      continue;
+    }
+    arr.push(key);
+  }
+  arrOut(arr, out);
+  itemClick();
+}
