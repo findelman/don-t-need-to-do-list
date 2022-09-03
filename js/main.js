@@ -24,7 +24,6 @@ btn.addEventListener("click", () => {
   itemClick();
   scrollTop();
   console.log(arr);
-  console.log(localStorage);
 });
 
 // Обнволение и рефокус инпута
@@ -193,4 +192,5 @@ if (localStorage.length >= 1) {
   }
   arrOut(arr, out);
   itemClick();
+  scrollTop();
 }
