@@ -1,17 +1,17 @@
-let input = document.querySelector(".input");
-let btn = document.querySelector(".btn");
-let out = document.querySelector(".out-tab");
-let outCompleted = document.querySelector(".completed-tab");
-let arr = [];
-let arrCompleted = [];
+const input = document.querySelector(".input");
+const btn = document.querySelector(".btn");
+const out = document.querySelector(".out-tab");
+const outCompleted = document.querySelector(".completed-tab");
+const arr = [];
+const arrCompleted = [];
 let itemCompletedCount = 0;
-let tabs = document.querySelectorAll(".btn-filter");
-let tabsWrapper = document.querySelectorAll(".tab-wrapper");
-let dateInner = document.querySelector(".date");
-let countTask = document.querySelector(".to-wrapper-count");
-let toggleItem = document.querySelector(".to-wrapper-filter__toggle");
+const tabs = document.querySelectorAll(".btn-filter");
+const tabsWrapper = document.querySelectorAll(".tab-wrapper");
+const dateInner = document.querySelector(".date");
+const countTask = document.querySelector(".to-wrapper-count");
+const toggleItem = document.querySelector(".to-wrapper-filter__toggle");
 
-let date = new Date().toLocaleDateString();
+const date = new Date().toLocaleDateString();
 dateInner.innerHTML = date;
 
 btn.addEventListener("click", () => {
@@ -40,7 +40,7 @@ const arrOut = (arr, outInner) => {
   }
 
   // добавляем активный класс выполненным айтемам
-  let items = document.querySelectorAll(".item");
+  const items = document.querySelectorAll(".item");
   for (let i = 0; i < itemCompletedCount; i++) {
     items[i].classList.add("item--completed");
   }
@@ -48,7 +48,7 @@ const arrOut = (arr, outInner) => {
 
 // Скролл в начало
 const scrollTop = () => {
-  let toItem = document.querySelectorAll(".item");
+  const toItem = document.querySelectorAll(".item");
   if (toItem.length >= 1) {
     toItem[toItem.length - 1].scrollIntoView();
   }
@@ -56,11 +56,11 @@ const scrollTop = () => {
 
 // Клик по айтему / Удаление айтемов / Переделать по индексу(удаление по elem.textContent может неправильно отрабатывать)
 const itemClick = () => {
-  let items = document.querySelectorAll(".item");
+  const items = document.querySelectorAll(".item");
   items.forEach((elem, index) => {
-    let itemClose = elem.querySelector(".clear");
-    let itemCompleted = elem.querySelector(".completed");
-    let itemUpdate = elem.querySelector(".update");
+    const itemClose = elem.querySelector(".clear");
+    const itemCompleted = elem.querySelector(".completed");
+    const itemUpdate = elem.querySelector(".update");
 
     itemClose.addEventListener("click", () => {
       if (elem.classList.contains("item--completed")) {
@@ -86,24 +86,20 @@ const itemClick = () => {
 
     // Желательно переделать
     itemUpdate.addEventListener("click", () => {
-      console.dir(elem.outerHTML);
-      let elemText = elem.textContent;
+      const elemText = elem.textContent;
       elem.outerHTML = `<div class="item item--update"><input class="item__input" value="${elem.textContent}"> <div class="item-btns flex"><div class="accept  flex-c item-btn--default"></div></div>`;
-      let itemUpdate = document.querySelector(".item--update");
-      let itemAccept = itemUpdate.querySelector(".accept");
-      let itemInput = itemUpdate.querySelector(".item__input");
-      console.log(elem);
+      const itemUpdate = document.querySelector(".item--update");
+      const itemAccept = itemUpdate.querySelector(".accept");
+      const itemInput = itemUpdate.querySelector(".item__input");
       itemInput.focus();
       localStorage.removeItem(elem.textContent.trim());
       itemAccept.addEventListener("click", () => {
-        console.log(elem);
         itemUpdate.outerHTML = `<div class="item">${itemInput.value}<div class="item-btns flex"><div class="update flex-c"></div><div class="completed flex-c"></div> <div class="clear flex-c"></div></div></div>`;
         arr.splice(arr.indexOf(elemText.trim()), 1, itemInput.value);
         localStorage.setItem(itemInput.value.trim(), itemInput.value.trim());
         arrOut(arr, out);
         itemClick();
       });
-      console.log(itemAccept);
     });
   });
   countTask.innerHTML = `${arr.length} задач`;
